@@ -1,5 +1,7 @@
 # 图论
 
+[return to Index]:<https://ki-116.github.io/my-page/>
+
 ## 岛屿问题
 
 
@@ -95,7 +97,29 @@ public:
 #### 保存状态
 使用队列 `queue<pair<int, int>> q` 来保存当前层的节点：  
 使用栈 `stack<pair<int, int>> s` 来保存当前层的节点（不常用）。
+1. 初始化队列，将起始节点入队。
+``` cpp
+queue<pair<int, int>> q;
+q.push({start_x, start_y});
+```
+2. 进入循环，直到队列为空。
+``` cpp
+while (!q.empty()) {
+    // 处理当前节点:从队列中取出节点
+    auto [x, y] = q.front();
+    q.pop();
+    // 处理节点逻辑：上下左右，等等
+    for (选择：本节点所连接的其他节点) {
+        处理节点;
+        if (节点未被访问)
+          q.push(选择的节点); // 将相邻节点入队
+    }
+}
+```
+
 #### 思路分析
+BFS 在本题中不需要拿出节点进行处理，而是直接将节点的相邻节点入队，并将相邻节点标记为已访问。
+
 
 
 ## 腐烂的橘子
