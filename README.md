@@ -12,6 +12,9 @@
 贪心相关：[greedyReference]
 [greedyReference]: https://ki-116.github.io/my-page/greedy
 
+HPC相关：[hpcReference]
+[hpcReference]: https://ki-116.github.io/my-page/hpc
+
 # 力扣
 
 一般来说，一道题想半个小时以上就可以看题解了。
