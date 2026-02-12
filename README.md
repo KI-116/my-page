@@ -10,10 +10,12 @@
 [graphReference]: https://ki-116.github.io/my-page/graphs
 
 贪心相关：[greedyReference]
+
 [greedyReference]: https://ki-116.github.io/my-page/greedy
 
 HPC相关：[hpcReference]
-[hpcReference]: https://ki-116.github.io/my-page/hpc
+
+[hpcReference]: https://ki-116.github.io/my-page/HPC
 
 # 力扣
 
