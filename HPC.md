@@ -127,4 +127,48 @@ bank: GPU中的共享内存被划分为多个内存银行（memory banks），�
 P.S. 有时候PyTorch直接使用也很快，因为它底层已经使用了这些库进行优化了。
 
 ### CPU-GPU communication 和 软流水线
+//TODO: https://www.bilibili.com/video/BV1424y1i7xe?spm_id_from=333.1387.collection.video_card.click
+software pipelining（软流水线）是一种优化技术，旨在提高CPU和GPU之间的通信效率。通过重叠CPU和GPU的计算和数据传输，可以减少等待时间，提高整体性能。
+``` cpp
+// initialize data on CPU ： 350ms
+//
+void compute(){
+    for(int i = 0; i < ARRSZ; ++i) {
+        ++bin[arr[i]];
+    }
+}
+
+//atomic : 6s, 因为每个线程都需要锁定内存位置以确保数据的一致性，导致性能下降。
+void compute() {
+    #pragma omp parallel for num_threads(40)
+    for(int i = 0; i < ARRSZ; ++i) {
+        #pragma omp atomic
+        ++bin[arr[i]];
+    }
+}
+
+//
+void compute() {
+    #pragma omp parallel for num_threads(40)
+    for(int t = 0; t < 40; ++t) {
+        int tmp_bin[256] = {0}; // 每个线程维护一个私有的临时bin
+
+    }
+}
+```
+
+用native GPU来的话：
+``` cpp
+__global__ void compute(int *arr, int *bin, int arr_sz) {
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+```
+
+
+
+
+
+
+# MPI message passing interface
+
+消息传递接口，是一种用于分布式计算的通信协议和编程模型。MPI允许不同计算节点之间进行通信和数据交换，使得分布式计算成为可能。
 
