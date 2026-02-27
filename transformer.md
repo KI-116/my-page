@@ -54,7 +54,6 @@ input embedding
 pos embedding
 
 
-padding:
 
 2. 编码器层
 
@@ -72,6 +71,8 @@ multi-head attention; forward
 
 解码器输入：目标序列的嵌入和位置编码。
 
+
+
 4. 解码器层
 
 掩码多头注意力，残差连接和层归一化。
@@ -86,4 +87,13 @@ multi-head attention; forward
 推理：自回归，使用模型生成的输出作为输入。
 
  
- 
+## embedding
+
+PAD: 使所有输入序列具有相同长度的特殊标记。
+SOS: 序列开始标记，表示输入序列的开始。
+EOS：序列结束标记，表示输入序列的结束。
+
+怎么把句子转换成向量？embedding就是把离散的单词映射到连续的向量空间中。
+
+
+![alt text](image-6.png)
