@@ -17,6 +17,16 @@ HPC相关：[hpcReference]
 
 [hpcReference]: https://ki-116.github.io/my-page/HPC
 
+Transformer:
+[transformer]
+[LoRA]
+
+[transformer]: https://ki-116.github.io/my-page/transformer
+
+[LoRA]: https://ki-116.github.io/my-page/LoRA
+
+
+
 # 力扣
 
 一般来说，一道题想半个小时以上就可以看题解了。
