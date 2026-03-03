@@ -34,7 +34,7 @@ CUDA开发要注意的问题：
 - 理解GPU内存模型
 - 并发：MEMORY-KERNEL-MEMORY——因为GPU的内存访问延迟较高，所以在内核执行期间，CPU可以继续执行其他任务，或者在内核执行完成后立即访问结果数据。
 
-![alt text](image.png)
+![alt text](images/image.png)
 
 ## How to write a+b?
 
@@ -86,7 +86,7 @@ cudaDeviceSynchronize(); // 等待GPU完成
 
 比如说，A100 GPU的内存架构
 
-![alt text](image-1.png)
+![alt text](images/image-1.png)
 
 - HBM2: High Bandwidth Memory 2，具有高带宽和低延迟的内存技术，适用于GPU等高性能计算设备。
 - L2 Cache: GPU内部的二级缓存，用于存储经常访问的数据，减少对HBM2内存的访问次数，提高性能。
