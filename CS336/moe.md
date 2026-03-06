@@ -39,6 +39,30 @@ MLP routing：使用一个多层感知机（MLP）来计算每个专家的权重
 
 > RL-based routing：使用强化学习来训练一个路由器。RL非常善于处理离散决策问题(discrete decision-making)，可以学习如何在不同专家之间进行选择。但是成本高于收益，且有时不稳定。 
 > linear assignment routing：将输入线性分配给专家，简单但可能不够灵活。
+
+
+#### detail Top-k routing
+
+![alt text](images/image-17.png)
+
+Softmax 计算每个专家的权重，然后取消top-k以外的权重，最后进行归一化。
+
+#### shared expert isolation
+
+专家维度减小，数量增加(fine-grained experts)，保持总的参数量不变。加上几个一直参与计算的专家（shared experts），来保证模型的稳定性。
+
+![alt text](images/image-18.png)
+
+#### 消融实验（ablation study）
+
+去掉shared experts，性能下降明显。说明shared experts对于模型的稳定性和性能提升非常重要。
+
+Gshare作为基线，是一个非常简单的MoE架构。
+
+分别设置的是：（out of 是topk 的数量）
+- 0 shared expert + 2 out of 16 routed experts(GShared): 只有2个专家参与计算，没有shared experts。
+- 1 shared expert + 1 out of 15 routed experts(+shared expert isolation): 1个shared expert参与计算，另外1个专家从剩下的15个专家中选择。
+
 ## Expert size
 
 ## training
