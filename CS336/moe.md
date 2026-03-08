@@ -18,7 +18,7 @@ dense architecture:
 
 > 只有在split up model的情况下，也就是不得不分片处理模型时，MoE才最具有优势。
 
-![alt text](images/image-14.png)
+![alt text](../images/image-14.png)
 
 ## Routing function(路由函数)
 
@@ -27,13 +27,13 @@ dense architecture:
 - expert chooses：每个专家根据输入选择
 - global routing：全局路由机制
 
-![alt text](images/image-15.png)
+![alt text](../images/image-15.png)
 
 MLP routing：使用一个多层感知机（MLP）来计算每个专家的权重，然后选择权重最高的k个专家。
 
 > token choose 的k为1时，仅仅选择1个专家，会丧失一些性能。通常k的值为2或4，可以在性能和计算效率之间取得平衡。
 
-![alt text](images/image-16.png)
+![alt text](../images/image-16.png)
 
 > common baseline: hashing-based routing：使用哈希函数将输入映射到专家上，也能达到不错的性能提高，常被用作基线方法。
 
@@ -43,7 +43,7 @@ MLP routing：使用一个多层感知机（MLP）来计算每个专家的权重
 
 #### detail Top-k routing
 
-![alt text](images/image-17.png)
+![alt text](../images/image-17.png)
 
 Softmax 计算每个专家的权重，然后取消top-k以外的权重，最后进行归一化。
 
@@ -51,7 +51,7 @@ Softmax 计算每个专家的权重，然后取消top-k以外的权重，最后�
 
 专家维度减小，数量增加(fine-grained experts)，保持总的参数量不变。加上几个一直参与计算的专家（shared experts），来保证模型的稳定性。
 
-![alt text](images/image-18.png)
+![alt text](../images/image-18.png)
 
 #### 消融实验（ablation study）
 

@@ -34,7 +34,7 @@ QK^T / sqrt(d_k) 是一个相似度矩阵，表示每个token与其他token的�
 
 通过除以 $\sqrt{d_k}$ 进行缩放，可以缓解这个问题。
 
-![alt text](image-5.png)
+![alt text](images/image-5.png)
 
 # 多头注意力机制
 
