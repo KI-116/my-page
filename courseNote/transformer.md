@@ -8,7 +8,7 @@ K : Key, 上下文的标识，用来匹配Q, 表示提供的信息类型
 V : Value, 上下文的内容，真正提供的语义内容
 
 
-![alt text](images/image-2.png)
+![alt text](../images/image-2.png)
 
 Attention = softmax(QK^T / sqrt(d_k))V
 
@@ -24,7 +24,7 @@ QK^T / sqrt(d_k) 是一个相似度矩阵，表示每个token与其他token的�
 
 整个得出的矩阵就是`注意力得分矩阵`
 
-![alt text](images/image-4.png)
+![alt text](../images/image-4.png)
 ![alt text](images/image-3.png)
 
 
@@ -34,7 +34,7 @@ QK^T / sqrt(d_k) 是一个相似度矩阵，表示每个token与其他token的�
 
 通过除以 $\sqrt{d_k}$ 进行缩放，可以缓解这个问题。
 
-![alt text](images/image-5.png)
+![alt text](../images/image-5.png)
 
 # 多头注意力机制
 
@@ -96,4 +96,4 @@ EOS：序列结束标记，表示输入序列的结束。
 怎么把句子转换成向量？embedding就是把离散的单词映射到连续的向量空间中。
 
 
-![alt text](images/image-6.png)
+![alt text](../images/image-6.png)
