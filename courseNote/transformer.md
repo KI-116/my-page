@@ -1,4 +1,9 @@
-# QKV
+# Overall architecture
+
+![alt text](../images/image-23.png)
+
+# Modules
+## QKV
 
 自注意力：其实是每个token依次和其他token相乘。如果是两个不同的矩阵相乘，那就是两个句子的语义相似度，越大越相似。
 
@@ -28,7 +33,7 @@ QK^T / sqrt(d_k) 是一个相似度矩阵，表示每个token与其他token的�
 ![alt text](images/image-3.png)
 
 
-# 缩放点积注意力
+## 缩放点积注意力
 
 对于图中的公式，从数学角度来看，如果输入的点积值过大，$ softmax = \frac{e^{x_i}}{\sum_j e^{x_j}} $ 不是趋近1就是趋近0，导致梯度消失。
 
@@ -36,7 +41,7 @@ QK^T / sqrt(d_k) 是一个相似度矩阵，表示每个token与其他token的�
 
 ![alt text](../images/image-5.png)
 
-# 多头注意力机制
+## 多头注意力机制
 
 每个头学习不同信息。
 一般是8个头，每个头的维度是512/8=64
@@ -97,3 +102,36 @@ EOS：序列结束标记，表示输入序列的结束。
 
 
 ![alt text](../images/image-6.png)
+
+# 训练流程与推理优化
+
+## 训练
+
+1. 预训练：使用大规模文本数据进行预训练，学习通用的语言表示。生成next token prediction.
+2. SFT: 有监督学习。指令数据->学会对话与遵循指令
+3. RLHF: 强化学习。人类反馈->对齐人类偏好
+
+框架：LLaMA-Factory / TRL(Transformer Reinforcement Learning)
+
+## 推理优化
+
+1. KV Cache
+2. Flash Attention
+3. 量化: FP16, INT8, INT4
+4. vLLM + Paged Attention
+
+# 微调与对齐
+
+## SFT 有监督微调
+
+指令数据格式（ChatML）
+学习率设置，过拟合管控
+
+## LoRA & qLoRA
+
+## 强化学习对齐
+
+PPO/DPO/GRPO
+教模型选择更优回答/大模型教小模型
+
+
