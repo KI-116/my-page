@@ -29,9 +29,15 @@ COU本身是一个流水线架构，执行每一条指令分为多个阶段，�
 
 # GPU
 
+理解GPU内存模型：
+- for programmer:
+    - Grid: 由多个block组成，每个block内有多个线程。Grid是CUDA中执行内核函数的基本单位，表示整个计算任务的范围。初始kernel调用时，开发者需要指定Grid的大小，即block的数量和每个block中线程的数量。
+    - Block: 一个block内有多个warp，每个block内的线程共享`shared memory`.在CUDA中，使用`__shared__`关键字声明的变量会被分配到共享内存中，供同一块内的所有线程访问。使用`__syncthreads()`函数可以在同一块内的线程之间进行同步，确保所有线程都完成了对共享内存的访问。
+    - Thread: 32个线程组成一个Warp. 每个线程束内的线程同时执行相同的指令，但可以访问不同的数据。（SIMT架构）——每个线程有自己的`regs`,`local variables`，`program counter`，`thread ID`
+    每个block内的线程共享`shared memory`，所有线程共享`global memory`
+
 CUDA开发要注意的问题：
 - 线程束（Warp）分化: CUDA中的线程是以线程束（Warp）为单位进行调度的，每个线程束包含32个线程。线程束内的线程同时执行相同的指令，但可以访问不同的数据。线程束分化（Warp Divergence）是指在同一个线程束内的线程执行不同的指令路径，导致性能下降。优化方法是尽量避免线程束分化，确保同一线程束内的线程执行相同的指令路径。
-- 理解GPU内存模型
 - 并发：MEMORY-KERNEL-MEMORY——因为GPU的内存访问延迟较高，所以在内核执行期间，CPU可以继续执行其他任务，或者在内核执行完成后立即访问结果数据。
 
 ![alt text](images/image.png)
