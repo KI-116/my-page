@@ -194,3 +194,213 @@ H =
 \]
 
 这是一个常数矩阵，因为函数是二次型。
+
+-----------
+1️⃣ **What is iLQR? / 什么是 iLQR？**
+
+### **EN**
+iLQR (Iterative Linear Quadratic Regulator) is a **second‑order trajectory optimization method** used for nonlinear systems. It improves a control sequence iteratively by:
+- linearizing dynamics  
+- quadratizing cost  
+- solving an LQR problem  
+- updating the trajectory  
+
+It is the foundation of many modern control frameworks (e.g., DDP, MPC, Crocoddyl).
+
+### **中文**
+iLQR（迭代线性二次调节器）是一种用于 **非线性系统的二阶轨迹优化方法**。它通过以下步骤不断改进控制序列：
+- 对动力学线性化  
+- 对代价函数二次化  
+- 求解 LQR 问题  
+- 更新轨迹  
+
+它是许多现代控制框架（如 DDP、MPC、Crocoddyl）的基础。
+
+---
+
+## 2️⃣ **Optimization Problem / 优化问题形式**
+
+### **EN**
+iLQR solves the nonlinear optimal control problem:
+
+\[
+\min_{u_{0:T-1}} \sum_{t=0}^{T} \ell(x_t,u_t)
+\]
+
+subject to nonlinear dynamics:
+
+\[
+x_{t+1} = f(x_t,u_t)
+\]
+
+### **中文**
+iLQR 求解如下非线性最优控制问题：
+
+\[
+\min_{u_{0:T-1}} \sum_{t=0}^{T} \ell(x_t,u_t)
+\]
+
+满足非线性动力学：
+
+\[
+x_{t+1} = f(x_t,u_t)
+\]
+
+---
+
+## 3️⃣ **Key Idea: Local Quadratic Approximation / 核心思想：局部二次近似**
+
+### **EN**
+At each iteration, iLQR:
+1. **Linearizes** dynamics around the current trajectory  
+2. **Quadratizes** the cost function  
+3. Solves the resulting **LQR problem**  
+4. Updates the control sequence  
+
+This makes iLQR much faster than generic nonlinear solvers.
+
+### **中文**
+在每次迭代中，iLQR 会：
+1. **对动力学做线性化**  
+2. **对代价函数做二次近似**  
+3. 求解得到的 **LQR 问题**  
+4. 更新控制序列  
+
+这使得 iLQR 比通用非线性优化器快得多。
+
+---
+
+## 4️⃣ **Forward–Backward Pass / 前向–后向迭代**
+
+### 🔙 **Backward Pass / 后向传播**
+
+### **EN**
+Compute feedback gains \(K_t\) and feedforward terms \(k_t\) by solving Riccati‑like equations:
+
+\[
+Q_x, Q_u, Q_{xx}, Q_{ux}, Q_{uu}
+\]
+
+Then compute:
+
+\[
+k_t = -Q_{uu}^{-1} Q_u
+\]
+\[
+K_t = -Q_{uu}^{-1} Q_{ux}
+\]
+
+### **中文**
+通过求解类似黎卡提方程，计算反馈增益 \(K_t\) 和前馈项 \(k_t\)：
+
+\[
+k_t = -Q_{uu}^{-1} Q_u
+\]
+\[
+K_t = -Q_{uu}^{-1} Q_{ux}
+\]
+
+这些量告诉我们如何调整控制输入。
+
+---
+
+### 🔜 **Forward Pass / 前向传播**
+
+### **EN**
+Apply the updated control law:
+
+\[
+u_t^{new} = u_t^{old} + \alpha k_t + K_t (x_t^{new} - x_t^{old})
+\]
+
+Simulate dynamics to obtain a new trajectory.
+
+### **中文**
+使用更新后的控制律：
+
+\[
+u_t^{new} = u_t^{old} + \alpha k_t + K_t (x_t^{new} - x_t^{old})
+\]
+
+然后前向模拟动力学，得到新的轨迹。
+
+---
+
+## 5️⃣ **Line Search / 线搜索**
+
+### **EN**
+The step size \(\alpha\) is chosen via line search to ensure cost decreases.
+
+### **中文**
+步长 \(\alpha\) 通过线搜索确定，以确保代价下降。
+
+---
+
+## 6️⃣ **Convergence Properties / 收敛特性**
+
+### **EN**
+iLQR converges quickly when:
+- dynamics are smooth  
+- cost is well‑conditioned  
+- initial guess is reasonable  
+
+But it may fail when:
+- contact dynamics exist  
+- cost landscape is highly non‑convex  
+
+### **中文**
+iLQR 在以下情况下收敛很快：
+- 动力学平滑  
+- 代价函数条件良好  
+- 初始猜测合理  
+
+但在以下情况可能失败：
+- 存在接触动力学  
+- 代价函数高度非凸  
+
+---
+
+## 7️⃣ **Relation to DDP / 与 DDP 的关系**
+
+### **EN**
+DDP (Differential Dynamic Programming) is the “full second‑order” version of iLQR:
+- iLQR ignores second‑order dynamics terms  
+- DDP keeps them  
+
+DDP is more accurate but more expensive.
+
+### **中文**
+DDP 是 iLQR 的“完全二阶”版本：
+- iLQR 忽略动力学的二阶项  
+- DDP 保留这些项  
+
+DDP 更精确但计算更重。
+
+---
+
+## 8️⃣ **Why iLQR is Popular? / 为什么 iLQR 很流行？**
+
+### **EN**
+- Fast  
+- Scales to long horizons  
+- Produces feedback policies  
+- Works well for locomotion and manipulation  
+- Foundation of modern MPC and Crocoddyl  
+
+### **中文**
+- 快速  
+- 可处理长时间规划  
+- 输出反馈控制律  
+- 在行走、操作任务中表现优秀  
+- 是现代 MPC 和 Crocoddyl 的基础  
+
+---
+
+# 🌟 **Summary / 总结**
+
+### **EN**
+iLQR is an efficient trajectory optimization method that uses local approximations and LQR structure to solve nonlinear optimal control problems.
+
+### **中文**
+iLQR 是一种高效的轨迹优化方法，通过局部近似和 LQR 结构求解非线性最优控制问题。
+
