@@ -172,3 +172,40 @@ int main() {
 
 ## 虚函数
 
+## 智能指针
+
+智能指针是C++11引入的特性，用于管理动态分配的内存。它们提供了自动内存管理的功能，避免了手动管理内存的复杂性和潜在错误。
+
+### std::unique_ptr
+
+`std::unique_ptr` 是一个独占所有权的智能指针，它确保同一时间只有一个指针指向动态分配的内存。当 `std::unique_ptr` 被销毁时，它会自动释放所指向的内存。
+
+``` cpp
+#include <memory>
+std::unique_ptr<int> ptr(new int(10));  // 创建一个unique_ptr，指向动态分配的int
+*ptr = 20;  // 修改指向的值
+// 当ptr离开作用域时，自动释放内存
+```
+
+### std::shared_ptr
+
+`std::shared_ptr` 是一个共享所有权的智能指针，它允许多个指针同时指向同一个动态分配的内存。当最后一个 `std::shared_ptr` 被销毁时，它会自动释放所指向的内存。
+
+``` cpp
+#include <memory>
+std::shared_ptr<int> ptr1(new int(10));  // 创建一个shared_ptr
+std::shared_ptr<int> ptr2 = ptr1;  // 复制shared_ptr，增加引用计数
+*ptr1 = 20;  // 修改指向的值
+// 当ptr1和ptr2都离开作用域时，自动释放内存
+```
+
+### std::weak_ptr
+
+`std::weak_ptr` 是一个弱引用智能指针，它不增加引用计数。通常与 `std::shared_ptr` 结合使用，用于打破循环引用的问题。
+
+``` cpp
+#include <memory>
+std::shared_ptr<int> ptr1(new int(10));  // 创建一个shared_ptr
+std::weak_ptr<int> ptr2 = ptr1;  // 创建一个weak_ptr，不增加引用计数
+// 当ptr1离开作用域时，ptr2将变为expired状态
+```
