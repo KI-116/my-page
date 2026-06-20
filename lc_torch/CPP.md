@@ -209,3 +209,34 @@ std::shared_ptr<int> ptr1(new int(10));  // 创建一个shared_ptr
 std::weak_ptr<int> ptr2 = ptr1;  // 创建一个weak_ptr，不增加引用计数
 // 当ptr1离开作用域时，ptr2将变为expired状态
 ```
+# DSA
+## 哈希表
+
+需要快速查找或记录元素，或判断出现频次
+
+> std::unordered_set / std::unordered_map 是 C++ 中最常用的哈希结构，底层实现是哈希表，查询 O(1)，增删O(1);遍历 O(n)。
+1. unordered_set
+```cpp
+unordered_set<int> s; // 存储整数的哈希集合
+unordered_set<int> nums(nums.begin(), nums.end()); // 从 vector 初始化哈希集合
+unordered_set<int> s2(s); // 从另一个哈希集合初始化
+unordered_set<int> s3 = {1, 2, 3}; // 列表初始化哈希集合
+s.insert(5); // 插入元素
+if (s.count(5))  // 判断元素是否存在
+if (s.find(5) != s.end()) // 判断元素是否存在
+s.erase(5); // 删除元素
+```
+
+
+2. unordered_map
+```cpp
+std::unordered_map<std::string, int> m; // 存储字符串到整数映射的哈希映射
+m["apple"] = 3; // 插入键值对
+std::unordered_map<std::string, int> m2(m); // 从另一个哈希映射初始化
+std::unordered_map<int, int> nums;
+nums.insert({1, 100}); // 插入键值对
+if (m.count("apple")) // 判断键是否存在
+if (m.find("apple") != m.end()) // 判断键是否存在
+m.erase("apple"); // 删除键值对
+```
+

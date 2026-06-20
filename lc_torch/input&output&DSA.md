@@ -66,6 +66,18 @@ print(path[:])        # 'usr/local/bin'
 print(path[::-1])     # 'nib/lacol/rsu'
 print(path[:-1])      # 'usr/local/bi'
 ```
+2. 数组初始化和遍历
+``` python
+n = 5
+used = [False] * n  # 初始化长度为 n 的布尔数组
+arr = [0] * n  # 初始化长度为 n 的数组
+for i in range(n):#range(n) 生成 0 到 n-1 的整数序列
+    arr[i] = i * i  # 填充数组
+print(arr)  # 输出 [0, 1, 4, 9, 16]
+for i in range(n,-1,-1): # 逆序遍历, -1 表示步长为 -1, -1 表示从 n-1 到 0
+    print(i)  # 输出 5, 4, 3, 2, 1, 0
+```
+
 ----------------
 # data structure(python)
 
@@ -253,6 +265,8 @@ dq.popleft()
 
 ```python
 st = set()
+st = set(nums)  # 从列表初始化哈希集合
+st.clear()  # 清空哈希集合
 ```
 
 ## 操作
@@ -262,7 +276,7 @@ st.add(x)
 
 st.remove(x)
 
-st.discard(x)
+st.discard(x)   # 不存在时不报错
 
 x in st
 ```
@@ -290,7 +304,7 @@ mp = {}
 ```python
 mp[key] = value
 
-mp.get(key, 0)
+mp.get(key, 0)  # 获取 key 的值，key 不存在时返回默认值 0
 
 key in mp
 
@@ -401,7 +415,7 @@ heap = []
 heapq.heappush(heap, x)
 
 heapq.heappop(heap)
-
+heapq.heappop(heap)[1] # 如果堆中存储的是 (priority, value) 这样的元组，可以通过 [1] 获取 value
 heap[0]
 ```
 
