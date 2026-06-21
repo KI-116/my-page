@@ -1,4 +1,15 @@
-## 回溯算法
+# 目录
+- [回溯算法](#回溯算法)
+- [动态规划](#动态规划)
+- [滑动窗口](#滑动窗口)
+- [岛屿问题](#岛屿问题)
+- [栈与队列：前 K 个高频元素](#栈与队列：前-K-个高频元素)
+- [二叉树](#二叉树)
+    - [二叉树递归：后序](#二叉树递归后序)
+    - [二叉树层序](#二叉树层序)
+
+
+# 回溯算法
 场景：子集，组合，全排列，分割
 
 ```
@@ -18,7 +29,7 @@ void backtracking(参数) {
 时间复杂度：O(n!)或者O（2^n），空间复杂度：O(k)（递归深度）,一般是O(n)（递归深度是n,每层空间常数级别）
 
 
-## 动态规划
+# 动态规划
 
 ```
 // 1. 定义状态：dp[i] = ...  // dp 数组的含义
@@ -27,7 +38,7 @@ void backtracking(参数) {
 // 4. 计算顺序：for (int i = 1; i < n; i++) { ... }  // 根据状态转移方程计算 dp 数组
 ```
 
-## 滑动窗口
+# 滑动窗口
 **极简模板：**
 ```python
 l=0; 
@@ -57,7 +68,7 @@ def lengthOfLongestSubstring(s: str) -> int:
     return res
 ```
 
-## 岛屿问题
+# 岛屿问题
 ``` python
 from collections import deque
 class Solution {
@@ -103,7 +114,7 @@ public:
     };
 ```
 
-## 栈与队列：前 K 个高频元素
+# 栈与队列：前 K 个高频元素
 ``` python
 #时间复杂度：O(nlogk)
 #空间复杂度：O(n)
@@ -132,8 +143,8 @@ class Solution:
         return result
 ```
 
-## 二叉树
-### 二叉树递归：后序
+# 二叉树
+## 二叉树递归：后序
 ``` python
 class Solution:
     def lowestCommonAncestor(self, root, p, q):
@@ -154,7 +165,7 @@ class Solution:
             return None
 ```
 
-### 二叉树层序
+## 二叉树层序
 ``` python
 # Definition for a binary tree node.
 # class TreeNode:
