@@ -1,84 +1,3 @@
-# python acm
-1. single int
-``` python
-n = int(input())
-print(n)
-```
-2. tuple of int
-``` python
-n, m = map(int, input().split())
-print(n, m)
-```
-3. list of int
-``` python
-n = int(input())
-arr = list(map(int, input().split()))
-arr.sort()
-print(arr)
-print(''.join(map(str, arr)))
-```
-4. matrix
-``` python
-n, m = map(int, input().split())
-matrix = []
-for i in range(n):
-    row = list(map(int, input().split()))
-    matrix.append(row)
-
-for row in matrix:
-    print(' '.join(map(str, row)))
-```
-
-5. multiple lines of input
-``` python
-T = int(input())
-for _ in range(T):
-    n = int(input())
-    arr = list(map(int, input().split()))
-    print(sum(arr))
-```
-6. string
-``` python
-s = input()
-print(s)
-print(s[::-1])  # reverse string
-```
-7. graph input
-``` python
-n, m = map(int, input().split()) # number of nodes and edges
-graph = [[] for _ in range(n)]   # adjacency list
-for _ in range(m): # read edges
-    u, v = map(int, input().split()) # edge from u to v
-    graph[u].append(v)
-    graph[v].append(u)  # if undirected
-
-for i in range(n):
-    print(f"Node {i}: {graph[i]}")
-```
----------------
-# python list
-1. Indexing & Slicing
-``` python
-path = "usr/local/bin"
-print(path[0])        # 'u'
-print(path[4:9])      # 'local'
-print(path[:])        # 'usr/local/bin'
-print(path[::-1])     # 'nib/lacol/rsu'
-print(path[:-1])      # 'usr/local/bi'
-```
-2. 数组初始化和遍历
-``` python
-n = 5
-used = [False] * n  # 初始化长度为 n 的布尔数组
-arr = [0] * n  # 初始化长度为 n 的数组
-for i in range(n):#range(n) 生成 0 到 n-1 的整数序列
-    arr[i] = i * i  # 填充数组
-print(arr)  # 输出 [0, 1, 4, 9, 16]
-for i in range(n,-1,-1): # 逆序遍历, -1 表示步长为 -1, -1 表示从 n-1 到 0
-    print(i)  # 输出 5, 4, 3, 2, 1, 0
-```
-
-----------------
 # data structure(python)
 
 速查：
@@ -175,10 +94,11 @@ stack = []
 
 ```python
 stack.append(x)
-
 stack.pop()
-
 stack[-1] # 查看栈顶元素
+# 判断栈是否为空
+if not stack:
+    print("Stack is empty")
 ```
 
 ## 模板
@@ -487,13 +407,14 @@ root.right
 
 ```python
 def dfs(root):
-
-    if not root:
+    res = [] # 存储结果的列表，可以根据需要修改
+    if not root:    
         return
-
+    # res.append(root.val) # 前序，用于复制树等
     dfs(root.left)
-
+    # res.append(root.val) # 中序，用于二叉搜索树
     dfs(root.right)
+    # res.append(root.val) # 后序，用于删除节点等
 ```
 
 ---
@@ -507,7 +428,7 @@ q = deque([root])
 
 while q:
 
-    node = q.popleft()
+    node = q.popleft()  # 访问节点，可以在这里处理 node.val
 
     if node.left:
         q.append(node.left)
@@ -716,5 +637,85 @@ from collections import defaultdict
 import heapq
 ```
 
+-----------
+# python acm 模板
+1. single int
+``` python
+n = int(input())
+print(n)
+```
+2. tuple of int
+``` python
+n, m = map(int, input().split())
+print(n, m)
+```
+3. list of int
+``` python
+n = int(input())
+arr = list(map(int, input().split()))
+arr.sort()
+print(arr)
+print(''.join(map(str, arr)))
+```
+4. matrix
+``` python
+n, m = map(int, input().split())
+matrix = []
+for i in range(n):
+    row = list(map(int, input().split()))
+    matrix.append(row)
 
+for row in matrix:
+    print(' '.join(map(str, row)))
+```
+
+5. multiple lines of input
+``` python
+T = int(input())
+for _ in range(T):
+    n = int(input())
+    arr = list(map(int, input().split()))
+    print(sum(arr))
+```
+6. string
+``` python
+s = input()
+print(s)
+print(s[::-1])  # reverse string
+```
+7. graph input
+``` python
+n, m = map(int, input().split()) # number of nodes and edges
+graph = [[] for _ in range(n)]   # adjacency list
+for _ in range(m): # read edges
+    u, v = map(int, input().split()) # edge from u to v
+    graph[u].append(v)
+    graph[v].append(u)  # if undirected
+
+for i in range(n):
+    print(f"Node {i}: {graph[i]}")
+```
+---------------
+
+# python 常用技巧
+1. Indexing & Slicing
+``` python
+path = "usr/local/bin"
+print(path[0])        # 'u'
+print(path[4:9])      # 'local'
+print(path[:])        # 'usr/local/bin'
+print(path[::-1])     # 'nib/lacol/rsu'
+print(path[:-1])      # 'usr/local/bi'
+```
+2. 数组初始化和遍历
+``` python
+n = 5
+used = [False] * n  # 初始化长度为 n 的布尔数组
+arr = [0] * n  # 初始化长度为 n 的数组
+for i in range(n):#range(n) 生成 0 到 n-1 的整数序列
+    arr[i] = i * i  # 填充数组
+print(arr)  # 输出 [0, 1, 4, 9, 16]
+for i in range(n,-1,-1): # 逆序遍历, -1 表示步长为 -1, -1 表示从 n-1 到 0
+    print(i)  # 输出 5, 4, 3, 2, 1, 0
+```
 
