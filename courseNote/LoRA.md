@@ -7,15 +7,15 @@
 
 以上，加载这个模型需要大约14 GB的内存。
 
-![alt text](images/image-7.png)
+![alt text](../images/image-7.png)
 
 ## rank
 
 代表了矩阵中线性无关的行或列的数量。
 
-![alt text](images/image-8.png)
+![alt text](../images/image-8.png)
 
-![alt text](images/image-9.png)
+![alt text](../images/image-9.png)
 
 ## LoRA模块的大模型结构
 
@@ -23,7 +23,7 @@
 
 ### decoder架构：
 
-![alt text](images/image-10.png)
+![alt text](../images/image-10.png)
 
 层归一化（Layer Normalization）通过对每个输入样本的特征进行归一化处理，使得每个特征在训练过程中具有相似的分布，从而减少了内部协变量偏移（internal covariate shift）。
 
@@ -41,7 +41,7 @@ MLP（Multi-Layer Perceptron）是前馈网络的一种实现方式，通常包�
 ### 微调，发生在
 
 #### W_Q 和 W_V 上
-![alt text](images/image-11.png)
+![alt text](../images/image-11.png)
 
 常见于风格变化。
 
@@ -57,7 +57,7 @@ MLP的三组线性投影：
 W_gate:控制信息流动的门控机制。
 W_down:将高维空间映射回原始维度。
 
-![alt text](images/image-12.png)
+![alt text](../images/image-12.png)
 
 当任务涉及到复杂推理、代码生成等时，MLP模块的作用尤为重要。
 
@@ -86,7 +86,7 @@ W_down:将高维空间映射回原始维度。
 
 3. 第一次反向传播时，A的值不变（因为B^T是零矩阵），而B的值会根据损失函数的梯度进行更新。随着训练的进行，A和B都会逐渐调整，使得LoRA模块能够学习到有用的特征表示。（*反向传播，是指在训练过程中，模型根据损失函数的梯度来更新参数的过程。通过计算损失函数相对于模型参数的梯度，模型能够调整参数以最小化损失，从而提高性能。*）
 
-![alt text](images/image-13.png)
+![alt text](../images/image-13.png)
 
 
 ## LoRA实操
