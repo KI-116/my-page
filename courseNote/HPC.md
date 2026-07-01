@@ -4,17 +4,15 @@
 - SIMD: Single Instruction Multiple Data
 - SIMT: Single Instruction Multiple Thread
 
-> 一个指令流控制多个数据流的处理器叫做 SIMD 处理器。SIMT 是 NVIDIA 公司提出的一个术语，指的是一种单指令多线程（Single Instruction Multiple Thread）的并行计算架构。SIMT 架构允许多个线程同时执行相同的指令，但每个线程可以处理不同的数据。这种架构在 GPU 中被广泛使用，可以大大提高并行计算的效率。
+> 一个指令流控制多个数据流的处理器叫做 SIMD 处理器。SIMT 架构允许多个线程同时执行相同的指令，但每个线程可以处理不同的数据。
 
 SIMD 带来了高速的运算，但可能需要更广泛的上下游修改，SIMT 则更容易编程和维护。
 
-CUDA就是一种SIMT架构。
+**CUDA就是一种SIMT架构。**
 
 OpenMP: 跨平台共享内存方式的多线程并发的编程接口。
 
 RDMA: Remote Direct Memory Access，远程直接内存访问，是一种允许计算机直接访问另一个计算机内存的技术，绕过操作系统和CPU的干预，从而实现更高效的数据传输。
-
-
 
 # CPU
 
@@ -23,7 +21,7 @@ L1 Cache速度最快但容量最小，L3 Cache速度较慢但容量较大。注�
 优化方法：
 - 循环展开 （Loop unrolling）: 将循环体展开成多条指令，减少循环控制的开销，提高指令级并行性。
 - 数据预取（Data prefetching）: 提前将数据加载到Cache中，减少内存访问的延迟。
-COU本身是一个流水线架构，执行每一条指令分为多个阶段，流水线地执行。在出现分支（branching）的时候，比如遇到了一个if语句，在出现分支的地方可能导致流水线无法被正常填充。
+CPU本身是一个流水线架构，执行每一条指令分为多个阶段，流水线地执行。在出现分支（branching）的时候，比如遇到了一个if语句，在出现分支的地方可能导致流水线无法被正常填充。
 优化方法：
 - 分支预测（Branch prediction）: CPU会尝试预测分支的结果，以减少分支带来的性能损失。
 
@@ -42,18 +40,6 @@ CUDA开发要注意的问题：
 
 ![alt text](../images/image.png)
 
-## How to write a+b?
-
-``` cpp
-__global__ void vecadd(double *a, double *b, double *c, int n) {
-    // get global thread ID
-    int i = blockIdx.x * blockDim.x + threadIdx.x;
-    // check if within bounds
-    if (i < n) {
-        c[i] = a[i] + b[i];
-    }
-}
-```
 对于以上代码中的`blockIdx.x`、`blockDim.x`和`threadIdx.x`，它们是CUDA中的内置变量，用于计算每个线程的全局ID。
 - `blockIdx.x`：表示当前线程所在的块（block）的索引。
 - `blockDim.x`：表示每个块中线程的数量。
