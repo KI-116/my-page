@@ -89,6 +89,14 @@ def lengthOfLongestSubstring(s: str) -> int:
     return res
 ```
 
+# 拓扑排序
+
+
+1. 找到入度为0 的出发节点，加入结果集
+2. 将该节点从图中移除
+循环以上两步，直到所有节点都在图中被移除了。结果集的顺序，就是我们想要的拓扑排序顺序。
+如果发现结果集元素个数**不等于**图中节点个数，就可以认定图中一定有 有向环！
+
 # 岛屿问题
 ``` python
 from collections import deque
