@@ -26,3 +26,53 @@ decoupled architecture for high-level visual language understanding and low-leve
         - MASt3R: estimate camera poses ->  VLM description ->  LLM generated NLP instruction ->  waypoint instruction
         - add envdrop labels
     - original SFT dataset
+
+# 0907
+# Deploy
+
+## Edge Deploy (Jetson Orin NX 16GB)
+
+- Model < 4B
+- Quantization
+
+## Server-Client (Same Local Network)
+
+- Inference (System 2, <10 Hz) on server
+- Client <--HTTP--> Server
+    - Robot: Client → Server (image)
+    - Inference Server: Server → Client
+        - `discrete_action`
+        - `trajectory`
+        - `pixel_goal`
+- Low-level robot control (~30 Hz) on device
+
+# Outdoor Navigation Task
+
+```text
+GPS Module 
+    │
+    ▼
+Global Path Planner
+    │
+    │ Generate a coarse waypoint sequence
+    ▼
+Waypoint middle Layer
+    │
+    │ Convert the next waypoint or a sequence of future
+    │ waypoints into navigation conditions for the VLA model,
+    │ such as textual navigation instructions
+    │ (e.g. "Move forward. The target is approximately
+    │ 15 meters ahead on your left.")
+    │ or spatial coordinate embeddings appended to the VLA input.
+    ▼
+InternVLA-N1 or other VLA model
+    │
+    │ Perform local perception, obstacle avoidance,
+    │ and trajectory generation conditioned on the injected
+    │ waypoint information.
+    ▼
+ros_bridge.py
+    │
+    ▼
+cmd_vel
+```
