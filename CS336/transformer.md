@@ -16,11 +16,3 @@ residual path上进行layer normalization: residiual path上的值是identity co
 logits <- soft_cap * tanh(logits/soft_cap)
 
 QK Norm: 是指在计算self-attention时，对查询（Q）和键（K）进行归一化处理，以提升模型的稳定性和性能。通过对Q和K进行归一化，可以使得它们的值更集中，减少数值不稳定性，从而提高模型的训练效果和泛化能力。
-
-### GQA/MQA
-
-
-
-
-
-``` python
