@@ -1,93 +1,164 @@
 # 目录
-- [滑动窗口](#滑动窗口)
+- [双指针](#双指针)
+    - [two ends](#two-ends)
+    - [快慢指针](#快慢指针)
+    - [滑动窗口](#滑动窗口)
 - [回溯算法](#回溯算法)
+    - [组合/子集](#组合子集)
+    - [全排列](#全排列)
+- [堆排序](#堆排序)
 - [动态规划](#动态规划)
-- [滑动窗口](#滑动窗口)
+- [拓扑排序](#拓扑排序)
 - [岛屿问题](#岛屿问题)
-- [栈与队列：前 K 个高频元素](#栈与队列：前-K-个高频元素)
+- [单调栈](#单调栈)
 - [二叉树](#二叉树)
     - [二叉树递归：后序](#二叉树递归后序)
     - [二叉树层序](#二叉树层序)
 
-# 滑动窗口
+# 双指针
+## two ends
+
+- 有序数组
+- 回文串
+- 容器盛水
+- 两数之和 II
 
 ``` python
-// 滑动窗口模板
-int left = 0, right = 0;
-while (right < s.size()) {
-    // 扩大窗口
-    window.add(s[right]);
-    right++;
+left, right = 0, len(nums) - 1
 
-    while (窗口满足条件) {
-        // 更新结果
-        ...
+while left < right:
+    if 满足条件:
+        return ...
 
-        // 缩小窗口
-        window.remove(s[left]);
-        left++;
-    }
-}
+    elif 需要左指针移动:
+        left += 1
+
+    else:
+        right -= 1
 ```
+
+
+## 快慢指针
+
+- 链表
+- 数组原地删除
+- 去重
+- Floyd 判环
+
+``` python
+slow = 0
+
+for fast in range(len(nums)):
+    if 保留 nums[fast]:
+        nums[slow] = nums[fast]
+        slow += 1
+
+return slow
+```
+
+## 滑动窗口
+
+``` python
+left = 0
+
+for right in range(len(nums)):
+    add(nums[right])
+
+    while 窗口非法:
+        remove(nums[left])
+        left += 1
+
+    更新答案()
+```
+
 
 # 回溯算法
-场景：子集，组合，全排列，分割
-
-```
-void backtracking(参数) {
-    if (终止条件) {
-        存放结果(push_back(path)/append(path[:]));
-        return;
-    }
-    for (选择：本层集合中的元素) {
-        处理节点(path.push_back(i)/path.append(i));
-        backtracking(路径，选择列表);
-        撤销处理结果(path.pop_back()/path.pop());
-    }
-}
-```
-
 时间复杂度：O(n!)或者O（2^n），空间复杂度：O(k)（递归深度）,一般是O(n)（递归深度是n,每层空间常数级别）
+``` python
+res = []
+path = []
+def backtracking(...):
+    if 满足终止条件:
+        res.append(path[:])
+        return
+    #枚举本层集合中的所有元素
+    for i in range(...):
+        if 不合法:#剪枝（可选）
+            continue
+        path.append(i)
+        backtracking(...)
+        path.pop()
 
+backtracking(...)
+return res
+```
 
+## 组合/子集
+``` python
+def backtracking(start):
+
+    if 结束条件:
+        res.append(path[:])
+        return
+
+    for i in range(start, len(nums)):
+        path.append(nums[i])
+        backtracking(i + 1)
+        path.pop()
+```
+
+## 全排列
+``` python  
+res = []
+path = []
+used = set()
+
+def backtracking():
+
+    if len(path) == len(nums):
+        res.append(path[:])
+        return
+
+    for i in range(len(nums)):
+        if i in used:
+            continue
+
+        used.add(i)
+        path.append(nums[i])
+
+        backtracking()
+
+        path.pop()
+        used.remove(i)
+```
+
+# 堆排序
+``` python
+import heapq
+heap = []
+for i in range(n):
+    heapq.heappush(heap, nums[i])  # O(logn)
+    if len(heap) > k:
+        heapq.heappop(heap)  # O(logn)
+```
 # 动态规划
 
+1. 一维
 ```
 // 1. 定义状态：dp[i] = ...  // dp 数组的含义
-// 2. 定义状态转移方程：dp[i] = ...  // 根据之前的状态转移到当前状态
-// 3. 初始化：dp[0] = ...  // 根据状态定义初始化
+// 2. 定义状态转移方程：dp[i] = ...  
+// 3. 初始化：dp = [0]*len(nums)
 // 4. 计算顺序：for (int i = 1; i < n; i++) { ... }  // 根据状态转移方程计算 dp 数组
 ```
 
-# 滑动窗口
-**极简模板：**
-```python
-l=0; 
-for r in range(n): 
-    更新窗口数据； 
-    while 窗口不满足条件: 
-        更新数据并 l++, 直到满足条件 
-    更新答案
+2. 二维
 ```
-``` python
-def lengthOfLongestSubstring(s: str) -> int:
-    window = set()
-    left = 0
-    res = 0
-    
-    for right in range(len(s)):
-        # 只要新加入的字符在窗口里存在，就一直收缩左边界，直到不重复
-        while s[right] in window:
-            window.remove(s[left])
-            left += 1
-            
-        # 此时窗口内一定没有重复字符了，加入新字符
-        window.add(s[right])
-        # 更新最大长度（在 while 外部更新，因为此时窗口合法且最大）
-        res = max(res, right - left + 1)
-        
-    return res
+// 1. 定义状态：dp[i][j] = ...  // dp 数组的含义
+// 2. 定义状态转移方程：dp[i][j] = ...
+// 3. 初始化：dp = [[False]*len(s) for _ in range(len(s))]
+// 4. 确定遍历顺序:如果是逆序，for i in range(len(s)-1, -1, -1): for j in range(i+1, len(s)): ...;如果j也逆序，for i in range(len(s)-1, -1, -1): for j in range(len(s)-1, i, -1): ...
 ```
+
 
 # 拓扑排序
 
@@ -99,78 +170,58 @@ def lengthOfLongestSubstring(s: str) -> int:
 
 # 岛屿问题
 ``` python
-from collections import deque
-class Solution {
-public:
-    int numIslands(vector<vector<char>>& grid) {
-        int m = grid.size();
-        if(!m) return 0;
-        int n = grid[0].size();
-        int num_islands = 0;
-        for(int x = 0; x < m; ++x) {
-        for(int y = 0; y < n; ++y) {
-            if(grid[x][y] == '1') {
-            ++num_islands;
-            grid[x][y] = '0'; // 标记为已访问
-            queue<pair<int, int>> q;
-            q.push({x, y});
-            while(!q.empty()){
-                auto [curr_x, curr_y] = q.front();
-                q.pop();
-                // 上下左右四个方向
-                if (curr_x - 1 >= 0 && grid[curr_x - 1][curr_y] == '1') {
-                grid[curr_x - 1][curr_y] = '0';
-                q.push({curr_x - 1, curr_y});
-                }
-                if (curr_x + 1 < m && grid[curr_x + 1][curr_y] == '1') {
-                grid[curr_x + 1][curr_y] = '0';
-                q.push({curr_x + 1, curr_y});
-                }
-                if (curr_y - 1 >= 0 && grid[curr_x][curr_y - 1] == '1') {
-                grid[curr_x][curr_y - 1] = '0';
-                q.push({curr_x, curr_y - 1});
-                }
-                if (curr_y + 1 < n && grid[curr_x][curr_y + 1] == '1') {
-                grid[curr_x][curr_y + 1] = '0';
-                q.push({curr_x, curr_y + 1});
-                }
-            }
-            }
-        }
-        }
-        return num_islands;
-    }
-    };
+m, n = len(grid), len(grid[0])
+dirs = [(1,0), (-1,0), (0,1), (0,-1)]
+
+def dfs(i, j):
+    # 1. 越界
+    if i < 0 or i >= m or j < 0 or j >= n:
+        return
+
+    # 2. 非法位置（水/已访问）
+    if grid[i][j] != LAND:
+        return
+
+    # 3. 标记访问
+    grid[i][j] = VISITED
+
+    # 4. 继续搜索四个方向
+    for dx, dy in dirs:
+        dfs(i + dx, j + dy)
+
+for i in range(m):
+    for j in range(n):
+        if grid[i][j] == LAND:
+            # 根据题意统计答案
+            dfs(i, j)
 ```
 
-# 栈与队列：前 K 个高频元素
+# 单调栈    
+
+
 ``` python
-#时间复杂度：O(nlogk)
-#空间复杂度：O(n)
-import heapq
-class Solution:
-    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-        #要统计元素出现频率
-        map_ = {} #nums[i]:对应出现的次数
-        for i in range(len(nums)):
-            map_[nums[i]] = map_.get(nums[i], 0) + 1
-        
-        #对频率排序
-        #定义一个小顶堆，大小为k
-        pri_que = [] #小顶堆
-        
-        #用固定大小为k的小顶堆，扫描所有频率的数值
-        for key, freq in map_.items():
-            heapq.heappush(pri_que, (freq, key))
-            if len(pri_que) > k: #如果堆的大小大于了K，则队列弹出，保证堆的大小一直为k
-                heapq.heappop(pri_que)
-        
-        #找出前K个高频元素，因为小顶堆先弹出的是最小的，所以倒序来输出到数组
-        result = [0] * k
-        for i in range(k-1, -1, -1):
-            result[i] = heapq.heappop(pri_que)[1]
-        return result
+stack = []
+
+for i in range(len(nums)):
+    # 当前元素和栈顶比较，维持栈的单调性
+    # nums[i] 就是 idx 右边第一个更大元素
+    while stack and nums[stack[-1]] < nums[i]:
+    # while stack and nums[stack[-1]] > nums[i]: 右边第一个更小元素
+    # while stack and nums[stack[-1]] <= nums[i]: 左边第一个更大元素
+    # while stack and nums[stack[-1]] >= nums[i]: 左边第一个更小元素
+        idx = stack.pop()
+
+    stack.append(i)
 ```
+
+- 下一个更大元素（Next Greater Element）
+- 下一个更小元素
+- 上一个更大元素
+- 上一个更小元素
+- 第一个满足条件的元素
+- 最近更高/更低
+- 每个元素作为最大值/最小值的贡献
+- 柱状图、矩形面积
 
 # 二叉树
 ## 二叉树递归：后序
