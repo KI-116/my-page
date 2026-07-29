@@ -226,8 +226,10 @@ mp[key] = value
 
 mp.get(key, 0)  # 获取 key 的值，key 不存在时返回默认值 0
 
-key in mp
-
+for k in mp:
+for k, v in mp.items():
+for v in mp.values():
+for i, v in enumerate(nums):
 del mp[key]
 ```
 
